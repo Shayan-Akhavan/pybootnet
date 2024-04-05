@@ -216,10 +216,17 @@ def average_network_stats(matrices, corr_threshold):
 # INPUT DATA IS A LIST  OF MATRICES
 # Takes in multiple matrices then outputs 1
 
-def build_network_graph(corr_matrices, threshold=0, title="Correlation Network"):
-    # Average out the correlation matrices
-    concat_data = pd.concat(corr_matrices)
-    avg_corr_matrix = concat_data.groupby(concat_data.index).mean()
+def build_network_graph(correlations, threshold=0, title="Correlation Network"):
+    # Check if the input is a list of DataFrames
+    if isinstance(correlations, list):
+        # Average out the correlation matrices
+        concat_data = pd.concat(correlations)
+        avg_corr_matrix = concat_data.groupby(concat_data.index).mean()
+    elif isinstance(correlations, pd.DataFrame):
+        # Use the DataFrame directly
+        avg_corr_matrix = correlations
+    else:
+        raise ValueError("Input data must be a list of DataFrames or a single DataFrame")
 
     G = nx.Graph()
 
@@ -252,7 +259,6 @@ def build_network_graph(corr_matrices, threshold=0, title="Correlation Network")
     plt.show()
 
     return G
-
 
 def no_label_network_graph(corr_matrices, threshold=0, title="Correlation Network"):
     # Average out the correlation matrices
