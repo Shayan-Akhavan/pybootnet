@@ -1,2 +1,2 @@
 # pybootnet
-Bootstrapping data and visualizing networks between projects in python
+Bootstrapping data and visualizing networks comparing between other communities in python
