@@ -135,7 +135,7 @@ def calculate_negative_network_statistics(matrices, corr_threshold=0):
 
 # INPUT DATA IS A DICTIONARY COMPARING DIFFERENT PROJECTS 
 # WILL OUTPUT A TABLE OF THE MEAN AND SEM OF EACH NETWORK STATISTICS AS A COLUMN
-def analyze_network_statistics(project_stats, filename='network_stats.csv'):
+def analyze_network_statistics(project_stats, filename='network_stats.csv', project_name=''):
     # Initialize an empty DataFrame to store the results
     results = pd.DataFrame()
 
@@ -165,10 +165,11 @@ def analyze_network_statistics(project_stats, filename='network_stats.csv'):
         ax.boxplot(data)
         ax.set_xticklabels(stats_dfs.keys())
         plt.title('Box plot of {} across projects'.format(stat))
-        plt.savefig('{}_boxplot.png'.format(stat))
+        plt.savefig('{}_{}_boxplot.png'.format(project_name, stat))
         plt.show()
 
     return results
+
 
 
 # ROUND THE NUMBERS 3 DECIMAL PLACES
