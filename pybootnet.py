@@ -337,6 +337,36 @@ def top_nodes_network_graph(corr_matrices, threshold=0.8, num_nodes=20, title="C
     return G, [node for node, _ in top_nodes]
 
 
+def top_nodes(corr_matrices, threshold=0.8, num_nodes=20):
+    # Average out the correlation matrices
+    concat_data = pd.concat(corr_matrices)
+    avg_corr_matrix = concat_data.groupby(concat_data.index).mean()
+
+    G = nx.Graph()
+
+    # Adding nodes and edges with weights based on the correlations
+    for i in avg_corr_matrix.columns:
+        for j in avg_corr_matrix.index:
+            # Filtering significant correlations
+            if i != j and abs(avg_corr_matrix.at[j, i]) > threshold:
+                G.add_edge(i, j, weight=avg_corr_matrix.at[j, i])
+
+    # Drawing the network graph
+    #plt.figure(figsize=(12, 12))
+    pos = nx.spring_layout(G, seed=42)
+    edges = G.edges(data=True)
+    #colors = ['red' if edata['weight'] < 0 else 'blue' for _, _, edata in edges]
+
+    # Get the top 20 nodes with the highest degree
+    top_nodes = sorted(G.degree, key=lambda x: x[1], reverse=True)[:num_nodes]
+    top_nodes_labels = []
+    top_nodes_labels = [node for node, _ in top_nodes]
+
+
+    # Return the graph and the list of top 20 nodes
+    return top_nodes_labels
+
+
 def build_positive_network(corr_matrices, threshold=0, title="Positive Correlation Network"):
     # Average out the correlation matrices
     concat_data = pd.concat(corr_matrices)
