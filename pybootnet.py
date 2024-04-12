@@ -261,10 +261,17 @@ def build_network_graph(correlations, threshold=0, title="Correlation Network"):
 
     return G
 
-def no_label_network_graph(corr_matrices, threshold=0, title="Correlation Network"):
-    # Average out the correlation matrices
-    concat_data = pd.concat(corr_matrices)
-    avg_corr_matrix = concat_data.groupby(concat_data.index).mean()
+def no_label_network_graph(correlations, threshold=0, title="Correlation Network"):
+    # Check if the input is a list of DataFrames
+    if isinstance(correlations, list):
+        # Average out the correlation matrices
+        concat_data = pd.concat(correlations)
+        avg_corr_matrix = concat_data.groupby(concat_data.index).mean()
+    elif isinstance(correlations, pd.DataFrame):
+        # Use the DataFrame directly
+        avg_corr_matrix = correlations
+    else:
+        raise ValueError("Input data must be a list of DataFrames or a single DataFrame")
 
     G = nx.Graph()
 
@@ -296,10 +303,17 @@ def no_label_network_graph(corr_matrices, threshold=0, title="Correlation Networ
     return G
 
 
-def top_nodes_network_graph(corr_matrices, threshold=0.8, num_nodes=20, title="Correlation Network"):
-    # Average out the correlation matrices
-    concat_data = pd.concat(corr_matrices)
-    avg_corr_matrix = concat_data.groupby(concat_data.index).mean()
+def top_nodes_network_graph(correlations, threshold=0.8, num_nodes=20, title="Correlation Network"):
+    # Check if the input is a list of DataFrames
+    if isinstance(correlations, list):
+        # Average out the correlation matrices
+        concat_data = pd.concat(correlations)
+        avg_corr_matrix = concat_data.groupby(concat_data.index).mean()
+    elif isinstance(correlations, pd.DataFrame):
+        # Use the DataFrame directly
+        avg_corr_matrix = correlations
+    else:
+        raise ValueError("Input data must be a list of DataFrames or a single DataFrame")
 
     G = nx.Graph()
 
@@ -337,10 +351,17 @@ def top_nodes_network_graph(corr_matrices, threshold=0.8, num_nodes=20, title="C
     return G, [node for node, _ in top_nodes]
 
 
-def top_nodes(corr_matrices, threshold=0.8, num_nodes=20):
-    # Average out the correlation matrices
-    concat_data = pd.concat(corr_matrices)
-    avg_corr_matrix = concat_data.groupby(concat_data.index).mean()
+def top_nodes(correlations, threshold=0.8, num_nodes=20):
+    # Check if the input is a list of DataFrames
+    if isinstance(correlations, list):
+        # Average out the correlation matrices
+        concat_data = pd.concat(correlations)
+        avg_corr_matrix = concat_data.groupby(concat_data.index).mean()
+    elif isinstance(correlations, pd.DataFrame):
+        # Use the DataFrame directly
+        avg_corr_matrix = correlations
+    else:
+        raise ValueError("Input data must be a list of DataFrames or a single DataFrame")
 
     G = nx.Graph()
 
@@ -351,26 +372,29 @@ def top_nodes(corr_matrices, threshold=0.8, num_nodes=20):
             if i != j and abs(avg_corr_matrix.at[j, i]) > threshold:
                 G.add_edge(i, j, weight=avg_corr_matrix.at[j, i])
 
-    # Drawing the network graph
-    #plt.figure(figsize=(12, 12))
     pos = nx.spring_layout(G, seed=42)
     edges = G.edges(data=True)
-    #colors = ['red' if edata['weight'] < 0 else 'blue' for _, _, edata in edges]
 
     # Get the top 20 nodes with the highest degree
     top_nodes = sorted(G.degree, key=lambda x: x[1], reverse=True)[:num_nodes]
     top_nodes_labels = []
     top_nodes_labels = [node for node, _ in top_nodes]
 
-
     # Return the graph and the list of top 20 nodes
     return top_nodes_labels
 
 
-def build_positive_network(corr_matrices, threshold=0, title="Positive Correlation Network"):
-    # Average out the correlation matrices
-    concat_data = pd.concat(corr_matrices)
-    avg_corr_matrix = concat_data.groupby(concat_data.index).mean()
+def build_positive_network(correlations, threshold=0, title="Positive Correlation Network"):
+    # Check if the input is a list of DataFrames
+    if isinstance(correlations, list):
+        # Average out the correlation matrices
+        concat_data = pd.concat(correlations)
+        avg_corr_matrix = concat_data.groupby(concat_data.index).mean()
+    elif isinstance(correlations, pd.DataFrame):
+        # Use the DataFrame directly
+        avg_corr_matrix = correlations
+    else:
+        raise ValueError("Input data must be a list of DataFrames or a single DataFrame")
 
     G = nx.Graph()
 
@@ -398,10 +422,17 @@ def build_positive_network(corr_matrices, threshold=0, title="Positive Correlati
 # FILTERS NETWORK BY NUMBER OF EDGES PER NODE
 # DEFAULT MAX 7 EDGES PER NODE
 
-def build_filtered_networks(corr_matrices, threshold=0.8, max_degree=7, title="filtered network"):
-    # Average out the correlation matrices
-    concat_data = pd.concat(corr_matrices)
-    avg_corr_matrix = concat_data.groupby(concat_data.index).mean()
+def build_filtered_networks(correlations, threshold=0.8, max_degree=7, title="filtered network"):
+    # Check if the input is a list of DataFrames
+    if isinstance(correlations, list):
+        # Average out the correlation matrices
+        concat_data = pd.concat(correlations)
+        avg_corr_matrix = concat_data.groupby(concat_data.index).mean()
+    elif isinstance(correlations, pd.DataFrame):
+        # Use the DataFrame directly
+        avg_corr_matrix = correlations
+    else:
+        raise ValueError("Input data must be a list of DataFrames or a single DataFrame")
 
     G = nx.Graph()
 
@@ -433,59 +464,79 @@ def build_filtered_networks(corr_matrices, threshold=0.8, max_degree=7, title="f
     return G
 
 # INPUT DATA IS A LIST  OF MATRICES
-def build_negative_networks(corr_matrices, threshold=0):
-    for idx, corr_matrix in enumerate(corr_matrices):
-        G = nx.Graph()
+def build_negative_networks(correlations, threshold=0, title='Project'):
+    # Check if the input is a list of DataFrames
+    if isinstance(correlations, list):
+        # Average out the correlation matrices
+        concat_data = pd.concat(correlations)
+        avg_corr_matrix = concat_data.groupby(concat_data.index).mean()
+    elif isinstance(correlations, pd.DataFrame):
+        # Use the DataFrame directly
+        avg_corr_matrix = correlations
+    else:
+        raise ValueError("Input data must be a list of DataFrames or a single DataFrame")
+    
+    G = nx.Graph()
 
-        # Adding nodes and edges with weights based on the correlations
-        for i in corr_matrix.columns:
-            for j in corr_matrix.index:
-                # Filtering significant correlations
-                if i != j and corr_matrix.loc[j, i] < threshold:
-                    G.add_edge(i, j, weight=corr_matrix.loc[j, i])
+    # Adding nodes and edges with weights based on the correlations
+    for i in avg_corr_matrix .columns:
+        for j in avg_corr_matrix .index:
+            # Filtering significant correlations
+            if i != j and avg_corr_matrix.loc[j, i] < threshold and avg_corr_matrix.loc[j, i] < 0:
+                G.add_edge(i, j, weight=avg_corr_matrix .loc[j, i])
 
-        # Drawing the network graph
-        plt.figure(figsize=(12, 12))
-        pos = nx.spring_layout(G, seed=42)
-        edges = G.edges(data=True)
-        colors = [edata['weight'] for _, _, edata in edges]
-        nx.draw_networkx(G, pos, edge_color=colors, edge_cmap=plt.cm.coolwarm, node_color='skyblue', with_labels=True)
+    # Drawing the network graph
+    plt.figure(figsize=(12, 12))
+    pos = nx.spring_layout(G, seed=42)
+    edges = G.edges(data=True)
+    colors = [edata['weight'] for _, _, edata in edges]
+    nx.draw_networkx(G, pos, edge_color=colors, edge_cmap=plt.cm.coolwarm, node_color='skyblue', with_labels=True)
 
-        plt.title(f"Average Negative Correlation Network for {corr_matrices}")
-        plt.show()
+    plt.title(f"Negative Correlation Network for {title}")
+    plt.show()
 
-        return G
+    return G
 
 
-def negative_filtered_networks(corr_matrices, threshold, max_degree):
-    for idx, corr_matrix in enumerate(corr_matrices):
-        G = nx.Graph()
+def negative_filtered_networks(correlations, threshold, max_degree):
+    # Check if the input is a list of DataFrames
+    if isinstance(correlations, list):
+        # Average out the correlation matrices
+        concat_data = pd.concat(correlations)
+        avg_corr_matrix = concat_data.groupby(concat_data.index).mean()
+    elif isinstance(correlations, pd.DataFrame):
+        # Use the DataFrame directly
+        avg_corr_matrix = correlations
+    else:
+        raise ValueError("Input data must be a list of DataFrames or a single DataFrame")
+    
+    G = nx.Graph()
 
-        # Adding nodes and edges with weights based on the correlations
-        for i in corr_matrix.columns:
-            for j in corr_matrix.index:
-                # Adding only significant correlations
-                if i != j and corr_matrix.loc[j, i] < -threshold:
-                    G.add_edge(i, j, weight=corr_matrix.loc[j, i])
+    # Adding nodes and edges with weights based on the correlations
+    for i in avg_corr_matrix.columns:
+        for j in avg_corr_matrix.index:
+            # Adding only significant correlations
+            if i != j and avg_corr_matrix.loc[j, i] < -threshold:
+                G.add_edge(i, j, weight=avg_corr_matrix.loc[j, i])
 
-        # Filter nodes by degree (number of connections)
-        nodes_to_keep = [node for node, degree in dict(G.degree()).items() if degree <= max_degree]
+    # Filter nodes by degree (number of connections)
+    nodes_to_keep = [node for node, degree in dict(G.degree()).items() if degree <= max_degree]
 
-        # Create a subgraph with only the filtered nodes
-        filtered_graph = G.subgraph(nodes_to_keep)
+    # Create a subgraph with only the filtered nodes
+    filtered_graph = G.subgraph(nodes_to_keep)
 
-        # Drawing the network graph
-        plt.figure(figsize=(12, 12))
-        pos = nx.spring_layout(filtered_graph, seed=42)  # For consistent layout
-        edges = filtered_graph.edges(data=True)
-        colors = [edata['weight'] for _, _, edata in edges]
-        nx.draw_networkx(filtered_graph, pos, edge_color=colors, edge_cmap=plt.cm.coolwarm, node_color='skyblue',
-                         with_labels=True)
+    # Drawing the network graph
+    plt.figure(figsize=(12, 12))
+    pos = nx.spring_layout(filtered_graph, seed=42)  # For consistent layout
+    edges = filtered_graph.edges(data=True)
+    colors = [edata['weight'] for _, _, edata in edges]
+    nx.draw_networkx(filtered_graph, pos, edge_color=colors, edge_cmap=plt.cm.coolwarm, node_color='skyblue',
+                        with_labels=True)
 
-        plt.title(f"Average Negative Correlation Network by the degree {max_degree}")
-        plt.show()
+    plt.title(f"Average Negative Correlation Network by the degree {max_degree}")
+    plt.show()
 
-        return G
+    return G
 
 
 # Bootstrapping data sets, finding correlations, then averaging the bootstrapped replicate correlations 
