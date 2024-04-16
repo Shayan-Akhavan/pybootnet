@@ -1,2 +1,2 @@
 # pybootnet
-Bootstrapping data and visualizing networks comparing between other communities in python
+Bootstrapping data and visualizing undirected networks. Observing differences between between other communities from their correlations.
