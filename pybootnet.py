@@ -164,7 +164,7 @@ def analyze_network_statistics(project_stats, filename='network_stats.csv', proj
         ax = fig.add_subplot(111)
         ax.boxplot(data)
         ax.set_xticklabels(stats_dfs.keys())
-        plt.title('Box plot of {} across projects'.format(stat))
+        plt.title('Box plot of {} across {}'.format(stat, project_name))
         plt.savefig('{}_{}_boxplot.png'.format(project_name, stat))
         plt.show()
 
