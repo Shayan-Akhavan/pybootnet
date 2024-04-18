@@ -1,6 +1,6 @@
-# pybootnet
-Bootstrapping data and visualizing undirected networks. Observing differences between between other communities from their correlations.  
-
+# pybootnet 
+Bootstrapping data and visualizing undirected networks. Observing differences between other communities from their correlations.  
+**WORK IN PROGRESS***
 
 List of functions:  
 map_columns  
