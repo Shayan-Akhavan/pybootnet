@@ -18,7 +18,7 @@ net_stat_binomial_test
 
 
 Supplemental functions:  
-calculate_negative_network_statistics  
+calculate_network_statistics_negative  
 no_label_network_graph   
 build_positive_network  
 build_filtered_network  
