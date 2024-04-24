@@ -23,7 +23,7 @@ def map_columns(df, column):
 
 
 # Creating Boostrap Replicates
-def bootstrap_replicates(data, n_iterations=10):
+def bootstrap_replicates(data, n_iterations=100): # Default 100
     n = len(data)
     bootstrap_results = []
 
@@ -83,7 +83,7 @@ def calculate_network_statistics(matrices, corr_threshold=0.8):
             'Average Degree Centrality': round(sum(degree_centrality.values()) / num_nodes if num_nodes > 0 else 0, 3),
             'Transitivity': round(transitivity, 3),
             'Closeness Centrality': round(average_closeness_centrality, 3),
-            'Betweeness Centrality': round(average_betweeness_centrality, 3),
+            'Betweeness Centrality': round(average_betweeness_centrality, 5),
             'Density': round(density, 3)
         }
         network_stats.append(stats_dict)
@@ -95,7 +95,7 @@ def calculate_network_statistics(matrices, corr_threshold=0.8):
 # n dimensions, visualizes 2-D
 # 1 or 3 dimensional 
 # Defaults to negative correlations less than 0
-def calculate_negative_network_statistics(matrices, corr_threshold=0):
+def calculate_network_statistics_negative(matrices, corr_threshold=0):
     network_stats = []
 
     for matrix in matrices:
@@ -125,7 +125,7 @@ def calculate_negative_network_statistics(matrices, corr_threshold=0):
             'Average Degree Centrality': round(sum(degree_centrality.values()) / num_nodes if num_nodes > 0 else 0, 3),
             'Transitivity': round(transitivity, 3),
             'Closeness Centrality': round(average_closeness_centrality, 3),
-            'Betweeness Centrality': round(betweeness_centrality, 3),
+            'Betweeness Centrality': round(betweeness_centrality, 5),
             'Density': round(density, 3)
         }
         network_stats.append(stats_dict)
@@ -135,7 +135,7 @@ def calculate_negative_network_statistics(matrices, corr_threshold=0):
 
 # INPUT DATA IS A DICTIONARY COMPARING DIFFERENT PROJECTS 
 # WILL OUTPUT A TABLE OF THE MEAN AND SEM OF EACH NETWORK STATISTICS AS A COLUMN
-def analyze_network_statistics(project_stats, filename='network_stats.csv', project_name=''):
+def analyze_network_statistics(project_stats, filename='network_stats.csv', project_name='', format='svg'):
     # Initialize an empty DataFrame to store the results
     results = pd.DataFrame()
 
@@ -165,7 +165,7 @@ def analyze_network_statistics(project_stats, filename='network_stats.csv', proj
         ax.boxplot(data)
         ax.set_xticklabels(stats_dfs.keys())
         plt.title('Box plot of {} across {}'.format(stat, project_name))
-        plt.savefig('{}_{}_boxplot.png'.format(project_name, stat))
+        plt.savefig('{}_{}_boxplot.{}'.format(project_name, stat, format))
         plt.show()
 
     return results
@@ -174,7 +174,7 @@ def analyze_network_statistics(project_stats, filename='network_stats.csv', proj
 
 # ROUND THE NUMBERS 3 DECIMAL PLACES
 def average_network_stats(matrices, corr_threshold):
-    network_stats = {'edges': [], 'nodes': [], 'degree_centrality': [], 'transitivity': [], 'closeness_centrality': [],
+    network_stats = {'edges': [], 'nodes': [], 'betweenness_centrality': [], 'transitivity': [], 'closeness_centrality': [],
                      'density': []}
 
     for matrix in matrices:
@@ -186,16 +186,16 @@ def average_network_stats(matrices, corr_threshold):
 
         network_stats['edges'].append(G.number_of_edges())
         network_stats['nodes'].append(G.number_of_nodes())
-        network_stats['degree_centrality'].extend(list(nx.degree_centrality(G).values()))
+        network_stats['betweenness_centrality'].extend([float(x) for x in nx.betweenness_centrality(G).values()])
         network_stats['transitivity'].append(nx.transitivity(G))
-        network_stats['closeness_centrality'].extend(list(nx.closeness_centrality(G).values()))
+        network_stats['closeness_centrality'].extend([float(x) for x in nx.closeness_centrality(G).values()])
         network_stats['density'].append(nx.density(G))
 
     avg_edges = round(np.mean(network_stats['edges']), 3)
     sem_edges = round(scipy.stats.sem(network_stats['edges']), 3)
     avg_nodes = round(np.mean(network_stats['nodes']), 3)
     sem_nodes = round(scipy.stats.sem(network_stats['nodes']), 3)
-    avg_degree_centrality = round(np.mean(network_stats['degree_centrality']), 3)
+    avg_betweenness_centrality = round(np.mean(network_stats['betweenness_centrality']), 3)
     avg_transitivity = round(np.mean(network_stats['transitivity']), 3)
     avg_closeness = round(np.mean(network_stats['closeness_centrality']), 3)
     avg_density = round(np.mean(network_stats['density']), 3)
@@ -205,7 +205,7 @@ def average_network_stats(matrices, corr_threshold):
         'standard_error_edges': sem_edges,
         'number_of_nodes': avg_nodes,
         'standard_error_nodes': sem_nodes,
-        'average_degree_centrality': avg_degree_centrality,
+        'betwenness_centrality': avg_betweenness_centrality,
         'transitivity': avg_transitivity,
         'closeness_centrality': avg_closeness,
         'density': avg_density
@@ -256,7 +256,7 @@ def build_network_graph(correlations, threshold=0, title="Correlation Network"):
     plt.legend(scatterpoints=1, frameon=False, labelspacing=1, bbox_to_anchor=(1, 1), loc='upper left')
 
     plt.title(title)
-    plt.savefig(title + ".PNG", format="PNG")
+    plt.savefig(title + ".PNG", format="PNG", bbox_inches='tight')
     plt.show()
 
     return G
@@ -297,7 +297,7 @@ def no_label_network_graph(correlations, threshold=0, title="Correlation Network
     plt.legend(scatterpoints=1, frameon=False, labelspacing=1, bbox_to_anchor=(1, 1), loc='upper left')
 
     plt.title(title)
-    plt.savefig(title + ".PNG", format="PNG")
+    plt.savefig(title + ".SVG", format="SVG", bbox_inches='tight')
     plt.show()
 
     return G
@@ -344,7 +344,7 @@ def top_nodes_network_graph(correlations, threshold=0.8, num_nodes=20, title="Co
     plt.legend(scatterpoints=1, frameon=False, labelspacing=1, bbox_to_anchor=(1, 1), loc='upper left')
 
     plt.title(title)
-    plt.savefig(title + ".PNG", format="PNG")
+    plt.savefig(title + ".SVG", format="SVG", bbox_inches='tight')
     plt.show()
 
     # Return the graph and the list of top 20 nodes
@@ -413,7 +413,7 @@ def build_positive_network(correlations, threshold=0, title="Positive Correlatio
     nx.draw_networkx(G, pos, edge_color=colors, edge_cmap=plt.cm.Blues, node_color='skyblue', with_labels=True)
 
     plt.title(title)
-    plt.savefig(title + ".PNG", format="PNG")
+    plt.savefig(title + ".SVG", format="SVG", bbox_inches='tight')
     plt.show()
 
     return G
@@ -458,7 +458,7 @@ def build_filtered_networks(correlations, threshold=0.8, max_degree=7, title="fi
                      with_labels=True)
 
     plt.title(title + f'max degree {max_degree}')
-    plt.savefig(title + ".PNG", format="PNG")
+    plt.savefig(title + ".SVG", format="SVG", bbox_inches='tight')
     plt.show()
 
     return G
@@ -493,12 +493,13 @@ def build_negative_networks(correlations, threshold=0, title='Project'):
     nx.draw_networkx(G, pos, edge_color=colors, edge_cmap=plt.cm.coolwarm, node_color='skyblue', with_labels=True)
 
     plt.title(f"Negative Correlation Network for {title}")
+    plt.savefig(title + ".SVG", format="SVG", bbox_inches='tight')
     plt.show()
 
     return G
 
 
-def negative_filtered_networks(correlations, threshold, max_degree):
+def negative_filtered_networks(correlations, threshold, max_degree, title='Project'):
     # Check if the input is a list of DataFrames
     if isinstance(correlations, list):
         # Average out the correlation matrices
@@ -534,6 +535,7 @@ def negative_filtered_networks(correlations, threshold, max_degree):
                         with_labels=True)
 
     plt.title(f"Average Negative Correlation Network by the degree {max_degree}")
+    plt.savefig(title + ".SVG", format="SVG", bbox_inches='tight')
     plt.show()
 
     return G
