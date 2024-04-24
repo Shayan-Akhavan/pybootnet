@@ -256,7 +256,7 @@ def build_network_graph(correlations, threshold=0, title="Correlation Network"):
     plt.legend(scatterpoints=1, frameon=False, labelspacing=1, bbox_to_anchor=(1, 1), loc='upper left')
 
     plt.title(title)
-    plt.savefig(title + ".PNG", format="PNG", bbox_inches='tight')
+    plt.savefig(title + ".SVG", format="SVG", bbox_inches='tight')
     plt.show()
 
     return G
