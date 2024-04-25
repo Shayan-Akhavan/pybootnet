@@ -10,13 +10,13 @@ Undirected networks are visualized by their correlations (postive or negative). 
 5. `analyze_network_statistics(network_stats, filename='network_stats.csv', project_name='', format='svg')`: Analyzes the network statistics for different projects, calculates descriptive statistics, and creates box plots for each statistic.  
 6. `build_network_graph(correlation_matrices, threshold=0, title="Correlation Network")`: Builds a network graph from the input correlation matrices, averaging them if multiple matrices are provided.  
 7. `top_nodes(correlation_matrices, threshold=0.8, num_nodes=20)`: Identifies the top nodes with the highest degree in the network graph.  
-8. `most_connected_nodes(network_graph)`: Finds the most connected node in the input graph built from the saved 'build_network_graph' output.  
-9. `nodes_edges_table(network_graph)`: Creates a table of the number of edges for each node from the saved 'build_network_graph' output.  
+8. `most_connected_nodes(network_graph)`: Finds the most connected node in the input graph built from the saved `build_network_graph` output.  
+9. `nodes_edges_table(network_graph)`: Creates a table of the number of edges for each node from the saved `build_network_graph` output.  
 10. `save_table_to_csv(df, filename)`: Saves a DataFrame to a CSV file. If there are any data pre processed that you would like to save and import later.
-11. `net_stat_binomial_test(network_stats_1, network_stats_2, title='p_values.csv')`: Performs a binomial test on the network statistics of two sets of bootstrap replicates. Takes the outputs of the 'calculate_network_statistics'.  
+11. `net_stat_binomial_test(network_stats_1, network_stats_2, title='p_values.csv')`: Performs a binomial test on the network statistics of two sets of bootstrap replicates. Takes the outputs of the `calculate_network_statistics`.  
   
 ## Usage   
-1. Import the necessary libraries and functions from this file.  
+1. Import the `requirements.txt` for this file.  
 2. Prepare your data as a Pandas DataFrame or a list of DataFrames.  
 3. Use the `map_columns` function to make the column values more readable if needed.  
 4. Create bootstrap replicates of your data using the `bootstrap_replicates` function.  
