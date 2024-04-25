@@ -31,6 +31,15 @@ Undirected networks are visualized by their correlations (postive or negative). 
 13. Perform a binomial test on the network statistics of two sets of bootstrap replicates using the `net_stat_binomial_test` function.  
 Make sure to adjust the input parameters and file names according to your specific use case. The functions provide flexibility in terms of input data format and output file formats, allowing for easy integration into your analysis pipeline.  
 
+## Supplemental Functions
+
+1. `build_positive_network(correlation_matrices, threshold=0, title="Positive Correlation Network")`: Builds a network graph from the input correlation matrices, focusing on positive correlations above the specified threshold.  
+2. `build_filtered_networks(correlation_matrices, threshold=0.8, max_degree=7, title="filtered network")`: Builds a filtered network graph from the input correlation matrices, keeping only nodes with a maximum degree (number of edges) specified by `max_degree`.  
+3. `build_negative_networks(correlation_matrices, threshold=0, title='Project')`: Builds a network graph from the input correlation matrices, focusing on negative correlations below the specified threshold.  
+4. `negative_filtered_networks(correlation_matrices, threshold, max_degree, title='Project')`: Builds a filtered network graph of negative correlations, keeping only nodes with a maximum degree specified by `max_degree`.  
+5. `bootstrap_sample_with_correlation(df, n_iterations)`: Performs bootstrapping on the input data, calculates correlations for each bootstrap replicate, and returns the average correlation matrix. Outputs a matrix, not a list of matrices.  
+6. `top_nodes_network_graph(correlation_matrices, threshold=0.8, num_nodes=20, title="Correlation Network")`: Builds a network graph from the input correlation matrices, highlighting the top nodes with the highest degree centrality. The number of top nodes to highlight is specified by `num_nodes`.  
+
 
 
 List of functions:  
