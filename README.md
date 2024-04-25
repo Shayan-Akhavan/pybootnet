@@ -1,6 +1,37 @@
 # pybootnet 
-Bootstrapping data and visualizing undirected networks. Observing differences between other communities from their correlations.  
-**WORK IN PROGRESS**
+This Python file contains a set of functions to perform network analysis with bootstrapped data. The functions are designed to work with Pandas DataFrames and can be used to analyze and compare network statistics across different projects.  
+Undirected networks are visualized by their correlations (postive or negative). Parameters are set to filter by their correlation strength.  
+
+## Functions
+1. `map_columns(df, column)`: Changes the values in a specified column of a DataFrame to be more readable, mapping them to 'X1', 'X2', 'X3', etc. This is optional, but recommended if target variables contain large names.  
+2. `bootstrap_replicates(data, n_iterations=100)`: Creates bootstrap replicates of the input data. The default number of iterations is 100.  
+3. `correlation_matrix(data_list)`: Calculates the Spearman correlation matrix for each DataFrame in the input list, taking in only numerical values.  
+4. `calculate_network_statistics(matrices, corr_threshold=0.8)`: Calculates various network statistics for each correlation matrix in the input list, using a specified correlation threshold.  
+5. `analyze_network_statistics(project_stats, filename='network_stats.csv', project_name='', format='svg')`: Analyzes the network statistics for different projects, calculates descriptive statistics, and creates box plots for each statistic.  
+6. `build_network_graph(correlations, threshold=0, title="Correlation Network")`: Builds a network graph from the input correlation matrices, averaging them if multiple matrices are provided.  
+7. `top_nodes(correlations, threshold=0.8, num_nodes=20)`: Identifies the top nodes with the highest degree in the network graph.  
+8. `most_connected_nodes(G)`: Finds the most connected node in the input graph G.  
+9. `nodes_edges_table(G)`: Creates a table of the number of edges for each node in the input graph G.  
+10. `save_table_to_csv(df, filename)`: Saves a DataFrame to a CSV file.  
+11. `net_stat_binomial_test(reps1, reps2, title='p_values.csv')`: Performs a binomial test on the network statistics of two sets of bootstrap replicates.  
+  
+## Usage   
+1. Import the necessary libraries and functions from this file.  
+2. Prepare your data as a Pandas DataFrame or a list of DataFrames.  
+3. Use the `map_columns` function to make the column values more readable if needed.  
+4. Create bootstrap replicates of your data using the `bootstrap_replicates` function.  
+5. Calculate the correlation matrices for each bootstrap replicate using the `correlation_matrix` function.  
+6. Calculate network statistics for each correlation matrix using the `calculate_network_statistics` function.  
+7. Analyze and compare the network statistics across different projects using the `analyze_network_statistics` function.  
+8. Build a network graph from the correlation matrices using the `build_network_graph` function.  
+9. Identify the top nodes in the network graph using the `top_nodes` function.  
+10. Find the most connected node using the `most_connected_nodes` function.  
+11. Create a table of the number of edges for each node using the `nodes_edges_table` function.  
+12. Save the table to a CSV file using the `save_table_to_csv` function.  
+13. Perform a binomial test on the network statistics of two sets of bootstrap replicates using the `net_stat_binomial_test` function.  
+Make sure to adjust the input parameters and file names according to your specific use case. The functions provide flexibility in terms of input data format and output file formats, allowing for easy integration into your analysis pipeline.  
+
+
 
 List of functions:  
 map_columns  
