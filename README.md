@@ -1,5 +1,5 @@
 # pybootnet 
-This Python file contains a set of functions to perform network analysis with bootstrapped data. The functions are designed to work with Pandas DataFrames and can be used to analyze and compare network statistics across different projects.  
+This repository contains a set of python functions to perform network analysis with bootstrapped data. The functions are designed to work with Pandas DataFrames and can be used to analyze and compare network statistics across different projects.  
 Undirected networks are visualized by their correlations (postive or negative). Parameters are set to filter by their correlation strength.  
 
 ## Functions
