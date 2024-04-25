@@ -4,16 +4,16 @@ Undirected networks are visualized by their correlations (postive or negative). 
 
 ## Functions
 1. `map_columns(df, column)`: Changes the values in a specified column of a DataFrame to be more readable, mapping them to 'X1', 'X2', 'X3', etc. This is optional, but recommended if target variables contain large names.  
-2. `bootstrap_replicates(data, n_iterations=100)`: Creates bootstrap replicates of the input data. The default number of iterations is 100.  
-3. `correlation_matrix(data_list)`: Calculates the Spearman correlation matrix for each DataFrame in the input list, taking in only numerical values.  
-4. `calculate_network_statistics(matrices, corr_threshold=0.8)`: Calculates various network statistics for each correlation matrix in the input list, using a specified correlation threshold.  
-5. `analyze_network_statistics(project_stats, filename='network_stats.csv', project_name='', format='svg')`: Analyzes the network statistics for different projects, calculates descriptive statistics, and creates box plots for each statistic.  
-6. `build_network_graph(correlations, threshold=0, title="Correlation Network")`: Builds a network graph from the input correlation matrices, averaging them if multiple matrices are provided.  
-7. `top_nodes(correlations, threshold=0.8, num_nodes=20)`: Identifies the top nodes with the highest degree in the network graph.  
-8. `most_connected_nodes(G)`: Finds the most connected node in the input graph G.  
-9. `nodes_edges_table(G)`: Creates a table of the number of edges for each node in the input graph G.  
-10. `save_table_to_csv(df, filename)`: Saves a DataFrame to a CSV file.  
-11. `net_stat_binomial_test(reps1, reps2, title='p_values.csv')`: Performs a binomial test on the network statistics of two sets of bootstrap replicates.  
+2. `bootstrap_replicates(df, n_iterations=100)`: Creates bootstrap replicates of the input data. The default number of iterations is 100.  
+3. `correlation_matrix(bootstrap_replicates)`: Calculates the Spearman correlation matrix for each DataFrame in the input list, taking in only numerical values.  
+4. `calculate_network_statistics(correlation_matrices, corr_threshold=0.8)`: Calculates various network statistics for each correlation matrix in the input list, using a specified correlation threshold.  
+5. `analyze_network_statistics(network_stats, filename='network_stats.csv', project_name='', format='svg')`: Analyzes the network statistics for different projects, calculates descriptive statistics, and creates box plots for each statistic.  
+6. `build_network_graph(correlation_matrices, threshold=0, title="Correlation Network")`: Builds a network graph from the input correlation matrices, averaging them if multiple matrices are provided.  
+7. `top_nodes(correlation_matrices, threshold=0.8, num_nodes=20)`: Identifies the top nodes with the highest degree in the network graph.  
+8. `most_connected_nodes(network_graph)`: Finds the most connected node in the input graph built from the saved 'build_network_graph' output.  
+9. `nodes_edges_table(network_graph)`: Creates a table of the number of edges for each node from the saved 'build_network_graph' output.  
+10. `save_table_to_csv(df, filename)`: Saves a DataFrame to a CSV file. If there are any data pre processed that you would like to save and import later.
+11. `net_stat_binomial_test(network_stats_1, network_stats_2, title='p_values.csv')`: Performs a binomial test on the network statistics of two sets of bootstrap replicates. Takes the outputs of the 'calculate_network_statistics'.  
   
 ## Usage   
 1. Import the necessary libraries and functions from this file.  
