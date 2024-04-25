@@ -42,7 +42,7 @@ Make sure to adjust the input parameters and file names according to your specif
 
 
 
-List of functions:  
+### List of functions:  
 map_columns  
 bootstrap_replicates  
 correlation_matrix  
@@ -57,7 +57,7 @@ nodes_edges_table
 net_stat_binomial_test  
 
 
-Supplemental functions:  
+### Supplemental functions:  
 calculate_network_statistics_negative  
 no_label_network_graph   
 build_positive_network  
