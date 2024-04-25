@@ -17,7 +17,7 @@ Undirected networks are visualized by their correlations (postive or negative). 
   
 ## Usage   
 1. Import the `requirements.txt` for this file.  
-2. Prepare your data as a Pandas DataFrame or a list of DataFrames.  
+2. Prepare your data as a Pandas DataFrame or a list of DataFrames. Make sure to preprocess your data so that the target variables you want to visualize in the network are in the columns of the DataFrame. For example, if you're analyzing correlations between different taxa, each taxon should be represented as a separate column in the DataFrame. 
 3. Use the `map_columns` function to make the column values more readable if needed.  
 4. Create bootstrap replicates of your data using the `bootstrap_replicates` function.  
 5. Calculate the correlation matrices for each bootstrap replicate using the `correlation_matrix` function.  
