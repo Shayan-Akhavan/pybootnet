@@ -134,7 +134,7 @@ def calculate_network_statistics_negative(matrices, corr_threshold=0):
 
 
 # INPUT DATA IS A DICTIONARY COMPARING DIFFERENT PROJECTS 
-# WILL OUTPUT A TABLE OF THE MEAN AND SEM OF EACH NETWORK STATISTICS AS A COLUMN
+# WILL OUTPUT A TABLE OF THE MEAN AND STD OF EACH NETWORK STATISTICS AS A COLUMN
 def analyze_network_statistics(project_stats, filename='network_stats.csv', project_name='', format='svg'):
     # Initialize an empty DataFrame to store the results
     results = pd.DataFrame()
@@ -146,10 +146,10 @@ def analyze_network_statistics(project_stats, filename='network_stats.csv', proj
         # Calculate descriptive statistics for each network statistic
         stats_df = pd.DataFrame(stats_list)
         mean = round(stats_df.mean().rename('{}_mean'.format(project)), 3)
-        sem = round(stats_df.sem().rename('{}_sem'.format(project)), 3)
+        std = round(stats_df.std().rename('{}_std'.format(project)), 3)
 
         # Append the results to the DataFrame
-        results = pd.concat([results, mean, sem], axis=1)
+        results = pd.concat([results, mean, std], axis=1)
 
         # Store the stats dataframe 
         stats_dfs[project] = stats_df
@@ -192,9 +192,9 @@ def average_network_stats(matrices, corr_threshold):
         network_stats['density'].append(nx.density(G))
 
     avg_edges = round(np.mean(network_stats['edges']), 3)
-    sem_edges = round(scipy.stats.sem(network_stats['edges']), 3)
+    std_edges = round(scipy.stats.std(network_stats['edges']), 3)
     avg_nodes = round(np.mean(network_stats['nodes']), 3)
-    sem_nodes = round(scipy.stats.sem(network_stats['nodes']), 3)
+    std_nodes = round(scipy.stats.std(network_stats['nodes']), 3)
     avg_betweenness_centrality = round(np.mean(network_stats['betweenness_centrality']), 3)
     avg_transitivity = round(np.mean(network_stats['transitivity']), 3)
     avg_closeness = round(np.mean(network_stats['closeness_centrality']), 3)
@@ -202,9 +202,9 @@ def average_network_stats(matrices, corr_threshold):
 
     stats_dict = {
         'number_of_edges': avg_edges,
-        'standard_error_edges': sem_edges,
+        'standard_error_edges': std_edges,
         'number_of_nodes': avg_nodes,
-        'standard_error_nodes': sem_nodes,
+        'standard_error_nodes': std_nodes,
         'betwenness_centrality': avg_betweenness_centrality,
         'transitivity': avg_transitivity,
         'closeness_centrality': avg_closeness,
