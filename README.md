@@ -2,6 +2,9 @@
 This repository contains a set of python functions to perform network analysis with bootstrapped data. The functions are designed to work with Pandas DataFrames and can be used to analyze and compare network statistics across different projects.  
 Undirected networks are visualized by their correlations (postive or negative). Parameters are set to filter by their correlation strength.  
 
+## Testing pybootnet with example data
+
+
 ## Functions
 1. `map_columns(df, column)`: Changes the values in a specified column of a DataFrame to be more readable, mapping them to 'X1', 'X2', 'X3', etc. This is optional, but recommended if target variables contain large names.  
 2. `bootstrap_replicates(df, n_iterations=100)`: Creates bootstrap replicates of the input data. The default number of iterations is 100.  
