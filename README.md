@@ -3,7 +3,7 @@ This repository contains a set of python functions to perform network analysis w
 Undirected networks are visualized by their correlations (postive or negative). Parameters are set to filter by their correlation strength.  
 
 ## Testing pybootnet with example data
-
+The gut_analysis_notebook.ipynb preforms a comprehsensive network analysis of two different 16S datasets, the results of which appear in the PyBootNet manuscript. This notebook demonstrates the use of the PyBootNet functions on dataset obtained from https://github.com/bryansho/PCOS_WGS_16S_metabolome and Ho et al. (2021) mSystems 6:https://doi.org/10.1128/msystems.01149-20.
 
 ## Functions
 1. `map_columns(df, column)`: Changes the values in a specified column of a DataFrame to be more readable, mapping them to 'X1', 'X2', 'X3', etc. This is optional, but recommended if target variables contain large names.  
