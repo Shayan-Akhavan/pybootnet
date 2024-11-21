@@ -228,7 +228,9 @@ def build_network_graph(correlations, threshold=0, title="Correlation Network"):
         avg_corr_matrix = correlations
     else:
         raise ValueError("Input data must be a list of DataFrames or a single DataFrame")
-
+    
+    avg_corr_matrix.to_csv(f"{title}_correlation_matrix.csv")
+    
     G = nx.Graph()
 
     # Adding nodes and edges with weights based on the correlations
@@ -272,7 +274,9 @@ def no_label_network_graph(correlations, threshold=0, title="Correlation Network
         avg_corr_matrix = correlations
     else:
         raise ValueError("Input data must be a list of DataFrames or a single DataFrame")
-
+        
+    avg_corr_matrix.to_csv(f"{title}_correlation_matrix.csv")
+    
     G = nx.Graph()
 
     # Adding edges with weights based on the correlations
@@ -314,7 +318,9 @@ def top_nodes_network_graph(correlations, threshold=0.8, num_nodes=20, title="Co
         avg_corr_matrix = correlations
     else:
         raise ValueError("Input data must be a list of DataFrames or a single DataFrame")
-
+    
+    avg_corr_matrix.to_csv(f"{title}_correlation_matrix.csv")
+    
     G = nx.Graph()
 
     # Adding nodes and edges with weights based on the correlations
