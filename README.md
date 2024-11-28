@@ -2,6 +2,17 @@
 This repository contains a set of python functions to perform network analysis with bootstrapped data. The functions are designed to work with Pandas DataFrames and can be used to analyze and compare network statistics across different projects.  
 Undirected networks are visualized by their correlations (postive or negative). Parameters are set to filter by their correlation strength.  
 
+## Installing pybootnet
+To install using conda, we recommend creating a fresh environment using the following conda install command with all the requirements:
+```
+conda create -n pybootnet jupyter matplotlib=3.6.3 networkx=3.0 numpy=1.23.5 pandas=2.0.2 scipy=1.13.0
+```
+
+To install using pip, in the directory of requirements.txt run:
+```
+pip install -r requirements.txt
+```
+
 ## Testing pybootnet with example data
 The gut_analysis_notebook.ipynb preforms a comprehsensive network analysis of two different 16S datasets, the results of which appear in the PyBootNet manuscript. This notebook demonstrates the use of the PyBootNet functions on dataset obtained from https://github.com/bryansho/PCOS_WGS_16S_metabolome and Ho et al. (2021) mSystems 6:https://doi.org/10.1128/msystems.01149-20.
 
