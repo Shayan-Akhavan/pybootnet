@@ -82,7 +82,7 @@ bootstrap_sample_with_correlation
 save_table_to_csv  
 
 
-## Example data
+## Additional Example data
 1. Download `binned_species_read_counts_GTDBTk_BLAST_clr.csv`
 2. Run `mouse_data_preprocessing.ipynb`
 3. Make sure pybootnet is in the same directory
